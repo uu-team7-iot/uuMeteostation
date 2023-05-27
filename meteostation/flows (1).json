@@ -1,0 +1,686 @@
+[
+    {
+        "id": "ad0bf55d3af25117",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "cf9b98b518ddbb63",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e8b9a29155c87c22",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8af133199d031242",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3afe1d87137ef7fd",
+        "type": "serial-port",
+        "serialport": "COM3",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "5214310cdcfc66a7",
+        "type": "mongodb",
+        "hostname": "127.0.0.1",
+        "topology": "direct",
+        "port": "27017",
+        "db": "Ardu",
+        "name": ""
+    },
+    {
+        "id": "43ae1f159b2af650",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "c49f62a10f70874f",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "eff4f8e26da4c5c7",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "43ae1f159b2af650",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5cfe3e336c0b4ed0",
+        "type": "ui_tab",
+        "name": "Home2",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8358cc59f54d0c65",
+        "type": "debug",
+        "z": "ad0bf55d3af25117",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 490,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "61e7a0c47b1e1461",
+        "type": "mongodb out",
+        "z": "ad0bf55d3af25117",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Teploty",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 750,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1f6aaca02376b8c7",
+        "type": "function",
+        "z": "ad0bf55d3af25117",
+        "name": "function 1",
+        "func": "const data = msg.payload.split(\",\");\nmsg.payload = {\n    temp: parseFloat(data[1]),\n    hum: parseFloat(data[0])\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "61e7a0c47b1e1461"
+            ]
+        ]
+    },
+    {
+        "id": "48883e5b81601a83",
+        "type": "serial in",
+        "z": "ad0bf55d3af25117",
+        "name": "",
+        "serial": "3afe1d87137ef7fd",
+        "x": 270,
+        "y": 260,
+        "wires": [
+            [
+                "8358cc59f54d0c65",
+                "1f6aaca02376b8c7"
+            ]
+        ]
+    },
+    {
+        "id": "c7817b690818727b",
+        "type": "mongodb in",
+        "z": "cf9b98b518ddbb63",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Teploty",
+        "operation": "find",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "5b32f34bc0466c03"
+            ]
+        ]
+    },
+    {
+        "id": "5b32f34bc0466c03",
+        "type": "function",
+        "z": "cf9b98b518ddbb63",
+        "name": "function 2",
+        "func": "let data =msg.payload;\nlet avgTemp = data.reduce((r, c) => r + c.temp, 0) / data.length;\nlet avgHumidity = data.reduce((r, c) => r + c.hum, 0) / data.length;\nmsg.payload = {\n    temp: avgTemp,\n    hum: avgHumidity,\n    timestamp: new Date(msg.timestamp).toISOString()\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "1f15b603fe1bbabf",
+                "960e8eed33f42c35"
+            ]
+        ]
+    },
+    {
+        "id": "73e5b063d2a2402c",
+        "type": "inject",
+        "z": "cf9b98b518ddbb63",
+        "name": "",
+        "props": [
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "4",
+        "topic": "",
+        "x": 90,
+        "y": 200,
+        "wires": [
+            [
+                "c7817b690818727b"
+            ]
+        ]
+    },
+    {
+        "id": "1f15b603fe1bbabf",
+        "type": "mongodb out",
+        "z": "cf9b98b518ddbb63",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Zpracovano",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 920,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "960e8eed33f42c35",
+        "type": "mongodb out",
+        "z": "cf9b98b518ddbb63",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Teploty",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "delete",
+        "x": 930,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "36af41b70a0f9d61",
+        "type": "inject",
+        "z": "e8b9a29155c87c22",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 200,
+        "wires": [
+            [
+                "9a51a271d5fefe28"
+            ]
+        ]
+    },
+    {
+        "id": "9a51a271d5fefe28",
+        "type": "mongodb in",
+        "z": "e8b9a29155c87c22",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Teploty",
+        "operation": "find",
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "da40802cc59463ba"
+            ]
+        ]
+    },
+    {
+        "id": "da40802cc59463ba",
+        "type": "http request",
+        "z": "e8b9a29155c87c22",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "http://127.0.0.1:3000/api/data",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 790,
+        "y": 200,
+        "wires": [
+            [
+                "8aaa28d626c1c609"
+            ]
+        ]
+    },
+    {
+        "id": "8aaa28d626c1c609",
+        "type": "switch",
+        "z": "e8b9a29155c87c22",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1010,
+        "y": 200,
+        "wires": [
+            [
+                "77e86f35086526b1"
+            ]
+        ]
+    },
+    {
+        "id": "77e86f35086526b1",
+        "type": "mongodb out",
+        "z": "e8b9a29155c87c22",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Zpracovano",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "delete",
+        "x": 1260,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7046427cee7d89b7",
+        "type": "inject",
+        "z": "8af133199d031242",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [
+                "152c82641701a2e9"
+            ]
+        ]
+    },
+    {
+        "id": "152c82641701a2e9",
+        "type": "mongodb in",
+        "z": "8af133199d031242",
+        "mongodb": "5214310cdcfc66a7",
+        "name": "",
+        "collection": "Teploty",
+        "operation": "find",
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "b67100c20b69db6a",
+                "945471b79b5cb3e7"
+            ]
+        ]
+    },
+    {
+        "id": "4cd01ac514198210",
+        "type": "ui_chart",
+        "z": "8af133199d031242",
+        "name": "",
+        "group": "eff4f8e26da4c5c7",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Humidity",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 900,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b67100c20b69db6a",
+        "type": "function",
+        "z": "8af133199d031242",
+        "name": "function 3",
+        "func": "let data = msg.payload;\nif (data.length === 0){\nreturn;\n};\nmsg.payload = data[\n    data.length - 1\n].hum\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 220,
+        "wires": [
+            [
+                "4cd01ac514198210",
+                "9dac5a03774dd7ff"
+            ]
+        ]
+    },
+    {
+        "id": "9dac5a03774dd7ff",
+        "type": "ui_gauge",
+        "z": "8af133199d031242",
+        "name": "",
+        "group": "eff4f8e26da4c5c7",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 920,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "945471b79b5cb3e7",
+        "type": "function",
+        "z": "8af133199d031242",
+        "name": "function 4",
+        "func": "let data = msg.payload;\nif (data.length === 0) {\n    return;\n};\nmsg.payload = data[\n    data.length - 1\n].temp\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 400,
+        "wires": [
+            [
+                "d49136e766e84dd7",
+                "1fd7b082e099242d"
+            ]
+        ]
+    },
+    {
+        "id": "d49136e766e84dd7",
+        "type": "ui_chart",
+        "z": "8af133199d031242",
+        "name": "",
+        "group": "eff4f8e26da4c5c7",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 950,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1fd7b082e099242d",
+        "type": "ui_gauge",
+        "z": "8af133199d031242",
+        "name": "",
+        "group": "eff4f8e26da4c5c7",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 950,
+        "y": 440,
+        "wires": []
+    }
+]
