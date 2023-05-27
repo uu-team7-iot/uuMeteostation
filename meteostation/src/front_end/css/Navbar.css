@@ -29,6 +29,17 @@
     text-decoration: none;
 }
 
+.navbar li button {
+    border: none;
+    background: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+.navbar li button:hover {
+    cursor: pointer;
+}
+
 ul.navbar_grid button {
     color: bisque;
     display: inline-block;

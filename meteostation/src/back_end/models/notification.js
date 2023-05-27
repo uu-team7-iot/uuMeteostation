@@ -22,6 +22,11 @@ const notificationSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }
 
 }, {
     timestamps: true

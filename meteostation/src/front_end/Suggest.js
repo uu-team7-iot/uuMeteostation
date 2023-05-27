@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const Suggest = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -13,7 +15,7 @@ const Suggest = () => {
     }, [searchTerm]);
 
     const fetchSuggestions = async () => {
-        const response = await fetch(`/api/meteostations?search=${searchTerm}`);
+        const response = await fetch(`/api/meteostations/suggest?search=${searchTerm}`);
         const data = await response.json();
         setSuggestions(data);
     };
@@ -26,9 +28,15 @@ const Suggest = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Hledat meteostanici"
             />
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
             <ul>
                 {suggestions.map((suggestion) => (
-                    <li key={suggestion._id}>{suggestion.name}</li>
+                    <li key={suggestion._id}>
+                        <button onClick={(e) => { 
+                            setSearchTerm(e.target.innerText) 
+                        }
+                            }>{suggestion.name}</button>
+                    </li>
                 ))}
             </ul>
 

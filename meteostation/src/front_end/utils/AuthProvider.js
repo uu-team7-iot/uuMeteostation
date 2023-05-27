@@ -107,8 +107,10 @@ const AuthProvider = ({ children }) => {
         console.log(data_json); // handle the response from the server
         if (data_json.msg){
           alert(data_json.msg)
+          return true
         } else {
           alert(data_json.error)
+          return false
         }
         
     } catch (error) {
@@ -125,13 +127,14 @@ const AuthProvider = ({ children }) => {
         date_from,
         date_to,
         temperature_below,
-        temperature_above
+        temperature_above,
     };
 
     const options = {
         method: "POST", // specify the HTTP method
         headers: {
-            "Content-Type": "application/json" // tell the server that we are sending JSON data
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(data) // convert the data object to a JSON string
     };
@@ -142,8 +145,10 @@ const AuthProvider = ({ children }) => {
         console.log(data_json); // handle the response from the server
         if (data_json.msg){
           alert(data_json.msg)
+          return true
         } else {
           alert(data_json.error)
+          return false
         }
         
     } catch (error) {

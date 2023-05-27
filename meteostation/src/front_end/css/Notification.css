@@ -83,3 +83,18 @@
 .create_notification_form svg:hover {
     cursor: pointer;
 }
+
+.all_notification_section ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3em;
+}
+
+.noti_tab {
+    list-style-type: none;
+    display: grid;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,.37);
+    padding: 1em;
+}

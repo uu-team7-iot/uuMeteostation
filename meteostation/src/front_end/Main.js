@@ -7,6 +7,7 @@ import './css/Main.css'
 import Navbar from "./Navbar";
 import NavbarProtected from './NavbarProtected';
 import Footer from "./Footer";
+import Suggest from './Suggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudShowersHeavy, faPlus, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from "./utils/AuthContext";
@@ -32,33 +33,41 @@ function Main() {
 
     return (
         <>
-        {isAuthenticated ? <NavbarProtected /> : <Navbar />}
-        <aside>
-            <section className='new_meteo_form'  style={modalStyles}>
-                <FontAwesomeIcon icon={faXmark} onClick={openCreateModal}/>
-                <label>Meteostation name</label>
-                <input type='text' onChange={(e) => setName(e.target.value)}/>
-                <label>Locality</label>
-                <input type='text' onChange={(e) => setLocality(e.target.value)}/>
-                <button onClick={()=>{createMeteo(name, locality)}}>Create</button>
-            </section>
-            {isOpen ? <div className="overlay"></div> : <></>}
-        </aside>
-        <section className='top_main_section'>
-        <section className="search_bar_section">
-                <div>
-                    <input type="text" placeholder="Praha 4 - Kolbenova" autoComplete="off" />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </div>
+            {isAuthenticated ? <NavbarProtected /> : <Navbar />}
+            <aside>
+                <section className='new_meteo_form' style={modalStyles}>
+                    <FontAwesomeIcon icon={faXmark} onClick={openCreateModal} />
+                    <label>Meteostation name</label>
+                    <input type='text' onChange={(e) => setName(e.target.value)} />
+                    <label>Locality</label>
+                    <input type='text' onChange={(e) => setLocality(e.target.value)} />
+                    <button onClick={async () => {
+                        const meteo_response = await createMeteo(name, locality)
+                        if (meteo_response) {
+                            setIsOpen(false)
+                        }
+                    }
+                    }>
+                        Create
+                    </button>
+                </section>
+                {isOpen ? <div className="overlay"></div> : <></>}
+            </aside>
+            <section className='top_main_section'>
+                <section className="search_bar_section">
+                    <div>
+                        <Suggest />
 
+                    </div>
+
+                </section>
+                <section className='new_meteo_section' onClick={openCreateModal}>
+                    <FontAwesomeIcon icon={faPlus} />
+                    <span>Create new meteostation</span>
+                </section>
             </section>
-            <section className='new_meteo_section' onClick={openCreateModal}>
-                <FontAwesomeIcon icon={faPlus} />
-                <span>Create new meteostation</span>
-            </section>
-        </section>
-            
-            
+
+
             <section className="weather_tab_section">
                 <article className="weather_tab">
                     <span className="item1">Prague</span>
