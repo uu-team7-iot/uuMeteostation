@@ -1,0 +1,45 @@
+.search_bar_section {
+    text-align: center;
+}
+
+.search_bar_section svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1em 2em 1em 1em;
+}
+
+.search_bar_section svg:hover {
+    cursor: pointer;
+}
+
+.search_bar_section input {
+    background: inherit;
+    background: rgba( 255, 255, 255, 0.3 );
+    backdrop-filter: blur( 8.5px );
+    -webkit-backdrop-filter: blur( 8.5px );
+    text-underline-offset: none;
+    padding: .7em 1.3em;
+    font-size: 1.3em;
+    text-decoration: none;
+    border: none;
+    color: inherit;
+    margin: auto;
+    width: 25em;
+    border-radius: .7em;
+}
+
+.search_bar_section div {
+    display: inline-block;
+    position: relative;
+    margin-top: 9em;
+}
+
+.search_bar_section input:focus-visible {
+    outline: none;
+}
+
+.search_bar_section input::placeholder {
+    color: #d5d2cb;
+}

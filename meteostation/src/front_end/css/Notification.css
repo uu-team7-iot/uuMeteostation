@@ -1,0 +1,85 @@
+.mynotification_section {
+    text-align: center;
+}
+
+.mynotification_section h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #454545;
+    margin: 3em 0 .7em 0;
+}
+
+.mynotification_section p {
+    text-align: center;
+    width: 40em;
+    margin: auto;
+    color: #454545;
+    font-style: italic;
+    font-size: 1.2em;
+}
+
+.mynotification_section button {
+    background: transparent;
+    padding: .8em;
+    border: 2px #454545 solid;
+    margin: 3.5em 0 2.5em 0;
+    transition-duration: .5s;
+    font-size: 1em;
+}
+
+.mynotification_section button svg {
+    padding-right: .7em;
+}
+
+.mynotification_section button:hover {
+    background: #454545;
+    color: #489084;
+    border: 2px transparent solid;
+    cursor: pointer;
+}
+
+.create_notification_form {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid hsla(0,0%,100%,.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,.37);
+    color: #454545;
+    font-size: 1.4em;
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
+    height: fit-content;
+    padding: 1em 2em;
+    transition-duration: .3s;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    margin: 5em auto 3em auto;
+}
+
+.create_notification_form input {
+    display: block;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px #454545 solid;
+    margin-bottom: 3em;
+    width: 17em;
+    margin: 1em auto 3em;
+}
+
+.create_notification_form input:focus-visible {
+    outline: none;
+}
+
+.create_notification_form svg {
+    color: #ff5c5c;
+    left: 100%;
+    top: 0;
+    position: absolute;
+    padding: .6em;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+.create_notification_form svg:hover {
+    cursor: pointer;
+}

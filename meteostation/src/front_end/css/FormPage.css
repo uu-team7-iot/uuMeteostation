@@ -1,0 +1,56 @@
+
+main.sign_log {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    position: relative;
+}
+
+main.sign_log .sign_log_form {
+    color: #454545;
+    display: inline-block;
+    display: grid;
+    font-size: 1.4em;
+    height: fit-content;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: fit-content;
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    padding: 2em;
+}
+
+.sign_log_form label, input {
+    display: block;
+}
+
+.sign_log_form input {
+    background: transparent;
+    border: 0;
+    border-bottom: 2px #454545 solid;
+    margin-bottom: 3em;
+    width: 17em;
+}
+
+.sign_log_form input:focus-visible {
+    outline: none;
+}
+
+.sign_log_form button {
+    background: transparent;
+    padding: .8em;
+    border: 2px #454545 solid;
+    margin-top: 2em;
+    transition-duration: .5s;
+}
+
+.sign_log_form button:hover {
+    background: #454545;
+    color: bisque;
+    border: 2px transparent solid;
+    cursor: pointer;
+}
