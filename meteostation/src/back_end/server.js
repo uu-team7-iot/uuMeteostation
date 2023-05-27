@@ -1,10 +1,12 @@
 const express = require('express')
 require('./db/mongoose')
+const mongoose = require ('mongoose')
 const path = require('path')
 const jwt = require('jsonwebtoken')
 const User = require('./models/user')
 const Meteostation = require('./models/meteostation')
 const Notification = require('./models/notification')
+const Meassure = require('./models/meassure')
 
 const secretKey = 'my-secret-key';
 
@@ -179,11 +181,11 @@ app.get('/api/get-notifications', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const notifications = await Notification.find({creator: user._id})
-        res.json({msg:'OK',notifications})
+        const notifications = await Notification.find({ creator: user._id })
+        res.json({ msg: 'OK', notifications })
 
     } catch (e) {
-        res.status(404).json({error:e})
+        res.status(404).json({ error: e })
     }
 
 })
@@ -200,12 +202,12 @@ app.delete('/api/delete-notification', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const {name} = req.body
+        const { name } = req.body
         const result = await Notification.deleteOne({ name, creator: user._id });
         if (result.deletedCount === 1) {
-            res.json({msg:'Succesfully deleted notification.'})
+            res.json({ msg: 'Succesfully deleted notification.' })
         } else {
-            res.json({msg:'Notification has not been deleted - we went in trouble, sorry.'})
+            res.json({ msg: 'Notification has not been deleted - we went in trouble, sorry.' })
         }
     } catch (error) {
         res.status(404).json(error)
@@ -234,6 +236,40 @@ app.get('/api/generate-token', (req, res) => {
     // Return the token in the response
     res.json({ token });
 });
+
+// Define a route to handle temperature post
+app.post('/api/register-meassure', async (req, res) => {
+    try {
+        const { measurements } = req.body;
+        console.log(measurements)
+        const meteo_id = req.header('gatewayId')
+        console.log(meteo_id)
+
+        const meteo = await Meteostation.findById(meteo_id)
+
+        if (!meteo){
+            return res.status(404).json({msg: 'No meteo with given id'})
+        }
+
+        for (const measureData of measurements) {
+            const { temp, timestamp } = measureData;
+
+            const report = new Meassure({
+                temp,
+                meteostation: new mongoose.Types.ObjectId(meteo_id),
+                time: timestamp,
+            });
+
+            await report.save();
+        }
+
+        return res.json({ msg: 'done' });
+
+    } catch (error) {
+        console.log(error)
+        return res.status(404).json({error})
+    }
+})
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
