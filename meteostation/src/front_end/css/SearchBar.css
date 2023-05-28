@@ -62,7 +62,7 @@
 .search_bar_section div {
     display: inline-block;
     position: relative;
-    margin-top: 9em;
+    margin-top: 5em;
 }
 
 .search_bar_section input:focus-visible {

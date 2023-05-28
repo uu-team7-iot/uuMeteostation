@@ -5,7 +5,7 @@
 .weather_tab {
     display: grid;
     width: 20em;
-    margin: auto;
+    margin: 0 auto 5em;
     font-size: 1.3em;
     gap: 2em;
     background: rgba( 255, 255, 255, 0.25 );

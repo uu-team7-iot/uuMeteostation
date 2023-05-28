@@ -16,6 +16,10 @@ function Main() {
     const [isOpen, setIsOpen] = useState(false)
     const [name, setName] = useState('')
     const [locality, setLocality] = useState('')
+    const [meteo_nm, setMeteo_nm] = useState('Prague')
+    const [meteo_last_tmp, setMeteo_last_tmp] = useState(17)
+
+    const [temp_data, settemp_data] = useState([])
 
     const { createMeteo, isAuthenticated } = useContext(AuthContext);
 
@@ -29,6 +33,25 @@ function Main() {
 
     const modalStyles = {
         display: isOpen ? 'block' : 'none',
+    }
+
+    async function fetchMeteo(meteo_name) {
+        console.log('here   ' + meteo_name)
+        const mt_response = await fetch(`/api/meteo-info/${meteo_name}`)
+        const mt_data = await mt_response.json()
+        if (!mt_data.error) {
+            setMeteo_nm(mt_data.name)
+        }
+        console.log()
+        const response = await fetch(`/api/get-meassure/${mt_data._id}`);
+        const data = await response.json();
+        console.log(data)
+        if (!data.error) {
+            settemp_data(data)
+            setMeteo_last_tmp(data[data.length - 1].temp)
+        }
+
+
     }
 
     return (
@@ -56,27 +79,34 @@ function Main() {
             <section className='top_main_section'>
                 <section className="search_bar_section">
                     <div>
-                        <Suggest />
+                        <Suggest fch_meassure={fetchMeteo} />
 
                     </div>
 
                 </section>
-                <section className='new_meteo_section' onClick={openCreateModal}>
-                    <FontAwesomeIcon icon={faPlus} />
-                    <span>Create new meteostation</span>
-                </section>
+                {
+                    isAuthenticated ? (
+                        <section className='new_meteo_section' onClick={openCreateModal}>
+                            <FontAwesomeIcon icon={faPlus} />
+                            <span>Create new meteostation</span>
+                        </section>
+                    ) : <></>
+                }
+
             </section>
 
 
             <section className="weather_tab_section">
                 <article className="weather_tab">
-                    <span className="item1">Prague</span>
+                    <span className="item1">{meteo_nm}</span>
                     <FontAwesomeIcon icon={faCloudShowersHeavy} className="item2" />
-                    <span className="item3">11 °C</span>
+                    <span className="item3">{meteo_last_tmp} °C</span>
 
                 </article>
             </section>
-            <WeatherGraph />
+            {
+                (temp_data.length > 0) && <WeatherGraph meassure_data={temp_data} />
+            }
             <Footer />
         </>
     )

@@ -271,6 +271,31 @@ app.post('/api/register-meassure', async (req, res) => {
     }
 })
 
+app.get('/api/get-meassure/:meteo_id', async (req, res) => {
+  try {
+    const { meteo_id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(meteo_id)) {
+      return res.status(400).json({ message: 'Invalid meteo_id' });
+    }
+    const measurements = await Meassure.find({ meteostation: new mongoose.Types.ObjectId(meteo_id) }).sort('time');
+    res.json(measurements);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving measurements' });
+  }
+});
+
+app.get('/api/meteo-info/:meteo_name', async (req, res) => {
+    try {
+        const meteo = await Meteostation.findOne({name: req.params.meteo_name})
+        if (meteo){
+            return res.json(meteo)
+        }
+        res.json({error: 'Cant find meteo station with given name'})
+    } catch (error) {
+        res.status(500).json({error})
+    }
+})
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 })
