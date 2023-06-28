@@ -8,16 +8,23 @@
 .new_meteo_section {
     background: transparent;
     border: 2px solid #454545;
+    border-top-left-radius: .7em;
+    border-top-right-radius: .7em;
     font-size: 1em;
+    color: #454545;
     margin: 3.5em 2.5em;
     padding: .6em;
     transition-duration: .5s;
     border-radius: .7em;
 }
 
+.new_meteo_section svg {
+    padding-right: .7em;
+}
+
 .new_meteo_section:hover {
     background: #454545;
-    color: #489084;
+    color: #e3d8c6;
     border: 2px transparent solid;
     cursor: pointer;
 }
@@ -34,11 +41,12 @@
     transform: translate(-50%,-50%);
     width: -moz-fit-content;
     width: fit-content;
-    background: #489084;
+    background: #e3d8c6;
     box-shadow: 0 8px 32px 0 rgba( 0, 0, 0, 0.37 );
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 4px );
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid hsla(0,0%,100%,.18);
+    border-radius: 10px;
     padding: 2.5em 2em 1em;
     transition-duration: .3s;
 }
@@ -87,7 +95,7 @@
 
 .new_meteo_form button:hover {
     background: #454545;
-    color: #489084;
+    color: #e3d8c6;
     border: 2px transparent solid;
     cursor: pointer;
 }

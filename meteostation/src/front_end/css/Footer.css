@@ -1,7 +1,8 @@
 /* footer section*/
 
 .footer_section {
-    background: rgba(0,0,0,.8);
+    background: #454545;
+    color: #e3d8c6;
     /* border-radius: 16px; */
     box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
     backdrop-filter: blur(3.1px);
@@ -25,6 +26,6 @@
   }
   
   .author_paragraph {
-    color: #f2f2f2;
+    color: #e3d8c6;
     text-align: center;
   }

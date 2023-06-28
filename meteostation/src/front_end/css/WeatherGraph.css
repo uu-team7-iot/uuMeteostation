@@ -1,5 +1,5 @@
 .recharts-wrapper {
-    margin: 3em auto auto auto;
+    margin: 3em auto 2em;
 }
 .mySlider {
     display: flex;
@@ -9,4 +9,33 @@
     margin-right: 20px;
     margin-bottom: 5px;
     margin-left: 0px;
+}
+
+.custom-tooltip {
+    background-color: rgba(69, 69, 69, 0.9);
+    color: #e3d8c6;
+    padding: .5em 1em;
+    border-radius: .3em;
+}
+.custom-tooltip svg{
+    margin-right: 1em;
+}
+
+.weather_graph_section input {
+    display: inline-block;
+}
+
+.weather_graph_section .dates_part svg, .weather_graph_section .ganularity_part svg{
+    margin: 1.3em 1em 0 0;
+}
+
+.weather_graph_section .dates_part input, .weather_graph_section select {
+    background: inherit;
+    border: 1px solid #454545;
+    padding: .3em;
+    margin: 0 .5em;
+}
+
+.weather_graph_section .dates_part, .weather_graph_section .ganularity_part {
+    text-align: center;
 }

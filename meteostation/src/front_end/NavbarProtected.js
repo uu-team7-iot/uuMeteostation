@@ -25,7 +25,7 @@ function NavbarProtected () {
     return (
         <ol className='navbar'>
             <li><a href='/'>Logo</a></li>
-            <li><a href='/notification'>Notification</a></li>
+            <li><a href='/notification'>My notification</a></li>
             <li><a href=''>About</a></li>
             <li><button onClick={logout}>Log out</button></li>
 

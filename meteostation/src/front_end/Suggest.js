@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-const Suggest = ({fch_meassure}) => {
+const Suggest = ({ fch_meteo }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [visibleHelp, setVisibleHelp] = useState(true);
 
     useEffect(() => {
-        if (searchTerm.length > 0) {
+        if (searchTerm.length > 0 && visibleHelp) {
             fetchSuggestions();
         } else {
             setSuggestions([]);
         }
-    }, [searchTerm]);
+    }, [searchTerm, visibleHelp]);
 
     const fetchSuggestions = async () => {
         const response = await fetch(`/api/meteostations/suggest?search=${searchTerm}`);
@@ -25,21 +26,27 @@ const Suggest = ({fch_meassure}) => {
             <input
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                    setVisibleHelp(true)
+                    setSearchTerm(e.target.value)
+                }}
                 placeholder="Hledat meteostanici"
             />
-            <FontAwesomeIcon icon={faMagnifyingGlass} onClick={()=>{
+            <FontAwesomeIcon icon={faMagnifyingGlass} onClick={() => {
                 console.log(searchTerm)
-                fch_meassure(searchTerm)
-
-                }
-                }/>
+                fch_meteo(searchTerm)
+                setVisibleHelp(false)
+            }
+            } />
             <ul>
                 {
                     suggestions.map((suggestion) => (
                         <li key={suggestion._id}>
-                            <button onClick={(e) => {
-                                setSearchTerm(e.target.innerText)
+                            <button onClick={async (e) => {
+                                const new_term = e.target.innerText
+                                setVisibleHelp(false)
+                                fch_meteo(new_term)
+                                setSearchTerm(new_term)
                             }
                             }>{suggestion.name}</button>
                         </li>

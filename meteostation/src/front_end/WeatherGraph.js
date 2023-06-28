@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import './css/WeatherGraph.css';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import { random, times } from 'lodash';
-import Slider from 'react-input-slider';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDays, faClock, faTemperatureLow } from '@fortawesome/free-solid-svg-icons'
+
 
 function CustomTooltip({ active, payload, label }) {
-  if (active) {
+  if (active && payload && payload.length) {
+    const { time, temp, date } = payload[0].payload;
     return (
       <div className="custom-tooltip">
-        <p className="label">{`${label} :Temperature: ${payload[0].payload.uv}`}</p>
+        <div>
+          <FontAwesomeIcon icon={faCalendarDays} />
+          <span className='tooltip-temp'>{`Date: ${date}`}</span>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faClock} />
+          <span className='tooltip_time'>{`Time: ${time}`}</span>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faTemperatureLow} />
+          <span className='tooltip-temp'>{`Temperature: ${temp.toFixed(2)} °C`}</span>
+        </div>
+        
+
       </div>
     );
   }
@@ -17,96 +32,132 @@ function CustomTooltip({ active, payload, label }) {
 }
 
 
-function generateData(size) {
-  return times(size, (index) => ({
-    name: index + 1, // day of the year
-    uv: random(5, 32), // Temperature ranging between 5 and 32 degrees
-  }));
+
+function formatDate(date) {
+  var year = date.getFullYear();
+  var month = String(date.getMonth() + 1).padStart(2, "0");
+  var day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 
-function aggregateData(data, granularity, dt_zone) {
-  let aggregatedData = [];
-  if (dt_zone < data.length - 1){
-    data = data.slice(data.length - dt_zone - 1)
-  }
-  for (let i = 0; i < data.length; i += granularity) {
-    let subset = data.slice(i, i + granularity);
+function WeatherGraph({ meteo_id }) {
 
-    let uvSum = subset.reduce((sum, point) => sum + point.uv, 0);
-    let avgUv = uvSum / subset.length;
+  const [fromDate, setFromDate] = useState(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000))
+  const [toDate, setToDate] = useState(new Date())
 
-    aggregatedData.push({
-      name: `Day ${subset[0].name} - Day ${subset[subset.length - 1].name}`, // Day range for these points
-      uv: avgUv
-    });
-  }
-
-  return aggregatedData;
-}
+  const [reducedMeasurements, setReducedMeasurements] = useState([]); // Initial data
+  const [granularity, setGranularity] = useState('6_hours'); // Initial granularity
 
 
-function WeatherGraph({ meassure_data }) {
-  const [data, setData] = useState(meassure_data.map((el) => {
-    console.log(el)
-    const date = new Date(el.time);
-
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-
-    const formattedDate = `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}`;
-    console.log(formattedDate); // "28-05"
-
-    return {
-      name: formattedDate,
-      uv: el.temp
-    }
-  })); // Initial data
-  const [granularity, setGranularity] = useState(1); // Initial granularity
-  const [aggregatedData, setAggregatedData] = useState([]);
-  const [date_zone, setDate_zone] = useState(21)
-
-  // When data or granularity changes, re-aggregate the data
   useEffect(() => {
-    setAggregatedData(aggregateData(data, granularity, date_zone));
-  }, [data, granularity,date_zone]);
+    const fetchData = async () => {
+      try {
+        const url = '/api/get-meassures';
+        const dt = {
+          meteo_id: meteo_id,
+          granularity: granularity,
+          from_date: fromDate.toJSON(),
+          to_date: toDate.toJSON(),
+        };
 
-  const changeGranularity = (value) => {
-    setGranularity(value);
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dt),
+        };
+
+        const response = await fetch(url, options);
+        const data = await response.json();
+        console.log(data);
+        if (!data.error) {
+          setReducedMeasurements(data.reducedMeasurements);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [granularity, fromDate, toDate]);
+
+
+  const changeGranularity = (event) => {
+    console.log(event.target.value)
+    setGranularity(event.target.value);
   }
+
+  const handleDateChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const td = new Date();
+    switch (event.target.id) {
+      case 'date_from_graph':
+        if ((td > selectedDate) && (toDate > selectedDate)) {
+          setFromDate(selectedDate)
+        } else {
+          console.log('Cant set view of date(from) in future or higher then to_date')
+        }
+        break;
+      case 'date_to_graph':
+        if ((td > selectedDate) && (fromDate < selectedDate)) {
+          setToDate(selectedDate);
+        } else {
+          console.log('Cant set view of date(to) in future or less then from_date')
+        }
+        break;
+      default:
+        console.log('Setting date in graph went wrong.')
+    }
+  };
+
+  // Format the dates as YYYY-MM-DD strings
+  const formattedFromDate = formatDate(fromDate);
+  const formattedToDate = formatDate(toDate);
+
+  console.log(formattedFromDate, formattedToDate)
+
+
 
   return (
-    <section>
-      <div className="mySlider">
-        <Slider
-          axis="x"
-          xstep={1}
-          xmin={1}
-          xmax={10}
-          x={granularity}
-          onChange={({ x }) => changeGranularity(x)}
-        />
+    <section className='weather_graph_section'>
+
+      <div className='dates_part'>
+        <FontAwesomeIcon icon={faCalendarDays} />
+        <label for="date_from_graph">Date from:</label>
+        <input type="date" id="date_from_graph" name="date_from_graph" value={formattedFromDate} onChange={handleDateChange} />
+
+        <label for="date_to_graph">Date to:</label>
+        <input type="date" id="date_to_graph" name="date_to_graph" value={formattedToDate} onChange={handleDateChange}></input>
       </div>
-      <div className="mySlider">
-        <Slider
-          axis="x"
-          xstep={1}
-          xmin={1}
-          xmax={21}
-          x={date_zone}
-          onChange={({ x }) => setDate_zone(x)}
-        />
+
+      <div className='ganularity_part'>
+        <FontAwesomeIcon icon={faClock} />
+        <label for="granularity">Choose a granularity:</label>
+        <select id="granularity" onChange={changeGranularity}>
+          <option value="10_minutes">10 minutes</option>
+          <option value="30_minutes">30 minutes</option>
+          <option value="1_hour">1 hour</option>
+          <option value="6_hours">6 hours</option>
+          <option value="1_day">1 day</option>
+        </select>
       </div>
-      <LineChart width={800} height={300} data={aggregatedData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-        <Line type="monotone" dataKey="uv" stroke="#f6f0e4" />
-        <CartesianGrid horizontal={null} vertical={null} />
-        <XAxis dataKey="name" tick={{ fill: "#f6f0e4" }} tickLine={{ stroke: "#f6f0e4" }} stroke="#f6f0e4" />
-        <YAxis tick={{ fill: "#f6f0e4" }} tickLine={{ stroke: "#f6f0e4" }} stroke="#f6f0e4" />
+
+
+
+      <LineChart width={800} height={300} data={reducedMeasurements}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
         <Tooltip content={<CustomTooltip />} />
+        <Legend />
+        <Line type="monotone" dataKey="temp" name="temperature" stroke="#8884d8" />
       </LineChart>
 
     </section>
   )
 }
+
 
 export default WeatherGraph

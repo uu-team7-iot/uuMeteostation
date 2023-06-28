@@ -14,6 +14,7 @@ import AuthProvider from "./front_end/utils/AuthProvider";
 import reportWebVitals from './reportWebVitals';
 import './front_end/css/FormPage.css'
 import Footer from './front_end/Footer';
+import MyNotification from './front_end/MyNotification';
 import RouteProvider from './front_end/utils/RouteProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -37,7 +38,7 @@ root.render(
           } />
 
           <Route path="notification" element={
-            <RouteProvider Component={Notification} Protected={true} />
+            <RouteProvider Component={MyNotification} Protected={true} />
           } />
 
 
