@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const Suggest = ({ fch_meteo }) => {
+    const navigate = useNavigate();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [visibleHelp, setVisibleHelp] = useState(true);
@@ -35,6 +38,7 @@ const Suggest = ({ fch_meteo }) => {
             <FontAwesomeIcon icon={faMagnifyingGlass} onClick={() => {
                 console.log(searchTerm)
                 fch_meteo(searchTerm)
+                navigate(`/?meteoStation=${encodeURIComponent(searchTerm)}`, { replace: true });
                 setVisibleHelp(false)
             }
             } />
@@ -46,6 +50,7 @@ const Suggest = ({ fch_meteo }) => {
                                 const new_term = e.target.innerText
                                 setVisibleHelp(false)
                                 fch_meteo(new_term)
+                                navigate(`/?meteoStation=${encodeURIComponent(new_term)}`, { replace: true });
                                 setSearchTerm(new_term)
                             }
                             }>{suggestion.name}</button>

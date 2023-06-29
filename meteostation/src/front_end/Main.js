@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useContext } from "react";
+import { useLocation } from 'react-router-dom';
 import WeatherGraph from './WeatherGraph'
 import './css/SearchBar.css'
 import './css/WeatherTab.css';
@@ -15,10 +16,16 @@ import { faCloudShowersHeavy, faPlus, faMagnifyingGlass, faXmark } from '@fortaw
 import AuthContext from "./utils/AuthContext";
 
 function Main() {
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const meteoStationParam = queryParams.get('meteoStation');
+    console.log(meteoStationParam); // Output: "ARDUINO"
+
     const [isOpen, setIsOpen] = useState(false)
     const [name, setName] = useState('')
     const [locality, setLocality] = useState('')
-    const [meteo_nm, setMeteo_nm] = useState('Prague')
+    const [meteo_nm, setMeteo_nm] = useState(meteoStationParam || 'Prague')
     const [meteo_id, setMeteoId] = useState('')
     const [meteo_last_tmp, setMeteo_last_tmp] = useState(17)
 
@@ -27,6 +34,10 @@ function Main() {
     const [temp_data, settemp_data] = useState(false)
 
     const { createMeteo, isAuthenticated } = useContext(AuthContext);
+
+    useEffect(() => {
+        fetchMeteo(meteo_nm)
+    }, [meteo_nm])
 
     function openCreateModal() {
         if (!isOpen) {
@@ -54,23 +65,31 @@ function Main() {
     }
 
     async function fetchMeteo(meteo_name) {
-        console.log('here   ' + meteo_name)
-        const mt_response = await fetch(`/api/meteo-info/${meteo_name}`)
-        const mt_data = await mt_response.json()
-        if (!mt_data.error) {
-            setMeteo_nm(mt_data.name)
-            setMeteoId(mt_data._id)
+        try{
+            console.log('here   ' + meteo_name)
+            const mt_response = await fetch(`/api/meteo-info/${meteo_name}`)
+            const mt_data = await mt_response.json()
+            if (!mt_data.error) {
+                setMeteo_nm(mt_data.name)
+                setMeteoId(mt_data._id)
+    
+    
+                const response = await fetch(`/api/get-meassure-last/${mt_data._id}`);
+                const data = await response.json();
+                console.log(data)
+                if (!data.error) {
+                    settemp_data(true)
+                    setMeteo_last_tmp(data.temp)
+                } else {
+                    settemp_data(false)
+                }
+            }
+    
+        } catch (e) {
+            console.log(e)
         }
+        
 
-        const response = await fetch(`/api/get-meassure-last/${mt_data._id}`);
-        const data = await response.json();
-        console.log(data)
-        if (!data.error) {
-            settemp_data(true)
-            setMeteo_last_tmp(data.temp)
-        } else {
-            settemp_data(false)
-        }
 
 
     }
@@ -95,9 +114,9 @@ function Main() {
                         Create
                     </button>
                 </section>
-                
+
             </aside>
-            {(isOpen||isOpenNoti) ? <div className="overlay"></div> : <></>}
+            {(isOpen || isOpenNoti) ? <div className="overlay"></div> : <></>}
 
             <section className='top_main_section'>
                 <section className="search_bar_section">
@@ -123,7 +142,7 @@ function Main() {
                 meteo_last_tmp={meteo_last_tmp}
                 openModalNoti={openModalNoti}
             />
-            <Notification openModalNoti={openModalNoti} modalStylesNoti={modalStylesNoti} meteo_nm={meteo_nm}/>
+            <Notification openModalNoti={openModalNoti} modalStylesNoti={modalStylesNoti} meteo_nm={meteo_nm} />
 
             {
                 temp_data && <WeatherGraph meteo_id={meteo_id} />

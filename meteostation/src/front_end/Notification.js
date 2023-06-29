@@ -2,14 +2,19 @@ import React from "react";
 import { useState, useContext, useEffect, useNavigate } from "react";
 import './css/Notification.css'
 import AuthContext from "./utils/AuthContext";
-import NavbarProtected from "./NavbarProtected";
-import Footer from "./Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
-function Notification({openModalNoti, modalStylesNoti, meteo_nm}) {
-    const [date_from, setDate_from] = useState('');
-    const [date_to, setDate_to] = useState('');
+function formatDate(date) {
+    var year = date.getFullYear();
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    var day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+function Notification({ openModalNoti, modalStylesNoti, meteo_nm }) {
+    const [date_from, setDate_from] = useState(new Date(Date.now() - 24 * 60 * 60 * 1000));
+    const [date_to, setDate_to] = useState(new Date());
     const [temperature_below, setTemp_below] = useState('');
     const [temperature_above, setTemp_above] = useState('');
 
@@ -19,24 +24,60 @@ function Notification({openModalNoti, modalStylesNoti, meteo_nm}) {
         createNotification(meteo_nm, date_from, date_to, temperature_below, temperature_above)
     }
 
+    // Format the dates as YYYY-MM-DD strings
+    const formattedFromDate = formatDate(date_from);
+    const formattedToDate = formatDate(date_to);
+
 
     return (
         <section>
             <section className="mynotification_section" style={modalStylesNoti}>
                 <article className="create_notification_form">
-                <FontAwesomeIcon icon={faXmark} onClick={openModalNoti} />
+                    <FontAwesomeIcon icon={faXmark} onClick={openModalNoti} />
                     <h2>New Notification</h2>
                     <div className="dates_form">
                         <label>Date from</label>
-                        <input type='date' onChange={(e) => setDate_from(e.target.value)} />
+                        <input type='date' onChange={(e) => {
+                            const dt = new Date(e.target.value)
+                            if (dt < date_to) {
+                                setDate_from(dt)
+                            } else {
+                                console.log('Date from in notification cant be more than date to.')
+                            }
+
+                        }} value={formattedFromDate} />
                         <label>Date to</label>
-                        <input type="date" onChange={(e) => setDate_to(e.target.value)} />
+                        <input type="date" onChange={(e) => {
+                            const dt = new Date(e.target.value)
+                            if (dt > date_from) {
+                                setDate_to(dt)
+                            } else {
+                                console.log('Date to in notification cant be less than date from.')
+                            }
+
+                        }} value={formattedToDate} />
                     </div>
                     <div className="temps_form">
                         <label>Temperature below</label>
-                        <input type="number" onChange={(e) => setTemp_below(e.target.value)} />
+                        <input type="number" onChange={(e) => {
+                            const given_temp = e.target.value
+                            if (given_temp > -21) {
+                                setTemp_below(given_temp)
+                            } else {
+                                console.log('Temperature FROM cant be less then -20 C.')
+                            }
+
+                        }} value={temperature_below}/>
                         <label>Temperature above</label>
-                        <input type="number" onChange={(e) => setTemp_above(e.target.value)} />
+                        <input type="number" onChange={(e) => {
+                            const given_temp = e.target.value
+                            if (given_temp < 35) {
+                                setTemp_above(given_temp)
+                            } else {
+                                console.log('Temperature TO cant be more than 35 C')
+                            }
+
+                        }} value={temperature_above}/>
                     </div>
 
                     <button onClick={handleCreateNotification}>Create</button>

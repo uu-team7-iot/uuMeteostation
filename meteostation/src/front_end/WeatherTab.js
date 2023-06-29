@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import './css/WeatherTab.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudShowersHeavy, faHammer } from '@fortawesome/free-solid-svg-icons'
+import AuthContext from "./utils/AuthContext";
 
 function WeatherTab({ meteo_nm, meteo_last_tmp, openModalNoti }) {
+    const { isAuthenticated } = useContext(AuthContext);
     return (
         <section className="weather_tab_section">
             <article className="weather_tab">
@@ -13,8 +15,7 @@ function WeatherTab({ meteo_nm, meteo_last_tmp, openModalNoti }) {
                 <span className="item4" onClick={()=>{
                     openModalNoti()
                 }}>
-                    <FontAwesomeIcon icon={faHammer} />
-                    <span>Set notification</span>
+                    {isAuthenticated ? <><FontAwesomeIcon icon={faHammer} /><span>Set notification</span></> : <></>}
                 </span>
 
             </article>

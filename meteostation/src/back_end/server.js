@@ -281,11 +281,11 @@ app.get('/api/get-meassure-last/:meteo_id', async (req, res) => {
             { meteostation: new mongoose.Types.ObjectId(meteo_id) }
             ).sort({ time: -1 });
         if (!measurement) {
-            res.status(400).json({error: 'No measure found'})
+            return res.status(400).json({error: 'No measure found'})
         }
         res.json(measurement);
     } catch (error) {
-        res.status(500).json({ error: true, message: 'Error retrieving last measurement' });
+        return res.status(500).json({ error: true, message: 'Error retrieving last measurement' });
     }
 });
 

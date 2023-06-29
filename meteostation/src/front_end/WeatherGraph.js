@@ -139,7 +139,7 @@ function WeatherGraph({ meteo_id }) {
           <option value="10_minutes">10 minutes</option>
           <option value="30_minutes">30 minutes</option>
           <option value="1_hour">1 hour</option>
-          <option value="6_hours">6 hours</option>
+          <option value="6_hours" selected>6 hours</option>
           <option value="1_day">1 day</option>
         </select>
       </div>
