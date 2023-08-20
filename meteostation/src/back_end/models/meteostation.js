@@ -10,6 +10,16 @@ const meteostationSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    access_key: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 }, {
     timestamps: true

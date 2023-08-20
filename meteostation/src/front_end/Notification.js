@@ -12,17 +12,44 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-function Notification({ openModalNoti, modalStylesNoti, meteo_nm }) {
+function Notification({ openModalNoti, modalStylesNoti, meteo_nm, get_notifications, setContentBox }) {
     const [date_from, setDate_from] = useState(new Date(Date.now() - 24 * 60 * 60 * 1000));
     const [date_to, setDate_to] = useState(new Date());
+    const [meteoNames, setMeteoNames] = useState([])
+    const [meteoNameOption, setMeteoNameOption] = useState('')
     const [temperature_below, setTemp_below] = useState('');
     const [temperature_above, setTemp_above] = useState('');
+
+    useEffect(() => {
+        get_meteo_name()
+    }, [])
 
     const { createNotification } = useContext(AuthContext);
 
     const handleCreateNotification = async (e) => {
-        createNotification(meteo_nm, date_from, date_to, temperature_below, temperature_above)
+        let return_val
+        if (meteoNameOption) {
+            console.log(meteoNameOption)
+            return_val = await createNotification(meteoNameOption, date_from, date_to, temperature_below, temperature_above)
+        } else {
+            console.log(meteoNameOption)
+            return_val = await createNotification(meteo_nm, date_from, date_to, temperature_below, temperature_above)
+        }
+        return return_val
+
     }
+
+    async function get_meteo_name() {
+        const response = await fetch('/api/meteostations/all-meteo-names')
+        const data = await response.json()
+        if (!data.error) {
+            setMeteoNames(data)
+            console.log(data)
+        } else {
+            console.log(data)
+        }
+    }
+
 
     // Format the dates as YYYY-MM-DD strings
     const formattedFromDate = formatDate(date_from);
@@ -35,6 +62,21 @@ function Notification({ openModalNoti, modalStylesNoti, meteo_nm }) {
                 <article className="create_notification_form">
                     <FontAwesomeIcon icon={faXmark} onClick={openModalNoti} />
                     <h2>New Notification</h2>
+                    {
+                        !meteo_nm &&
+                        <div className="select_meteo">
+                            <label for='meteostation'>Choose meteostation</label>
+                            <select name="meteostation" onClick={(e) => {
+                                setMeteoNameOption(e.target.value)
+                                console.log(e.target.value)
+                            }}>
+                                {meteoNames.map((el) => {
+                                    return <option value={el.name} >{el.name}</option>
+                                })}
+                            </select>
+                        </div>
+                    }
+
                     <div className="dates_form">
                         <label>Date from</label>
                         <input type='date' onChange={(e) => {
@@ -67,7 +109,7 @@ function Notification({ openModalNoti, modalStylesNoti, meteo_nm }) {
                                 console.log('Temperature FROM cant be less then -20 C.')
                             }
 
-                        }} value={temperature_below}/>
+                        }} value={temperature_below} />
                         <label>Temperature above</label>
                         <input type="number" onChange={(e) => {
                             const given_temp = e.target.value
@@ -77,10 +119,22 @@ function Notification({ openModalNoti, modalStylesNoti, meteo_nm }) {
                                 console.log('Temperature TO cant be more than 35 C')
                             }
 
-                        }} value={temperature_above}/>
+                        }} value={temperature_above} />
                     </div>
 
-                    <button onClick={handleCreateNotification}>Create</button>
+                    <button onClick={async () => {
+                        const return_val = await handleCreateNotification()
+                        if (setContentBox){
+                            setContentBox(return_val)
+                        }
+                        
+                        if (return_val.success) {
+                            openModalNoti()
+                            if (get_notifications) {
+                                get_notifications()
+                            }
+                        }
+                    }}>Create</button>
                 </article>
             </section>
         </section>

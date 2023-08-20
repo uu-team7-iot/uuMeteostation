@@ -53,7 +53,7 @@ function WeatherGraph({ meteo_id }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = '/api/get-meassures';
+        const url = '/api/measure/get-meassures';
         const dt = {
           meteo_id: meteo_id,
           granularity: granularity,

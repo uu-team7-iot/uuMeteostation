@@ -1,0 +1,213 @@
+.myMeteoSection {
+    text-align: center;
+    height: 100vh;
+}
+
+.myMeteoSection h2 {
+    margin-top: 5em;
+}
+
+.myMeteoSection h3 {
+    font-weight: 100;
+    text-align: center;
+}
+
+.myMeteoSection .myMeteoDescription {
+    padding: 0 20%;
+    font-weight: 100;
+    font-size: 1.2em;
+}
+
+.myMeteoSection .meteo_btn {
+    background: inherit;
+    border: 2px #454545 solid;
+    padding: 1em;
+    color: #454545;
+    transition-duration: .3s;
+    margin: 2em;
+    font-size: 1.1em;
+}
+
+.myMeteoSection .meteo_btn:hover {
+    background: #454545;
+    color: #e3d8c6;
+    cursor: pointer;
+}
+
+.myMeteoSection .meteo_btn svg {
+    margin-right: 1em;
+}
+
+.myMeteoSection .meteo_tab {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #e3d8c6;
+    display: grid;
+    display: inline-block;
+    list-style-type: none;
+    margin: 2em;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    text-align: left;
+    width: 19em;
+    height: 16em;
+}
+
+.myMeteoSection .meteo_tab span {
+    display: block;
+    margin-top: 1em;
+}
+
+.myMeteoSection .meteo_tab svg {
+    padding-right: 1em;
+}
+
+.myMeteoSection .meteo_tab button.edit_btn {
+    background-color: inherit;
+    color: #e3d8c6;
+    border: 2px;
+    border: 1px #e3d8c6 solid;
+    position: relative;
+    left: 100%;
+    transform: translateX(-100%);
+    margin-top: 1.5em;
+    transition-duration: .5s;
+}
+
+.myMeteoSection .meteo_tab button.toggle_btn {
+    float: right;
+    background: inherit;
+    border: none;
+    color: #e3d8c6;
+}
+
+.myMeteoSection .meteo_tab button.cancel_btn {
+    background-color: inherit;
+    color: #e3d8c6;
+    border: 1px #e3d8c6 solid;
+    display: inline-block;
+    transition-duration: .5s;
+}
+
+.myMeteoSection .meteo_tab button.confirm_btn {
+    background-color: inherit;
+    color: #99cc33;
+    border: 1px #99cc33 solid;
+    display: inline-block;
+    transition-duration: .5s;
+}
+
+
+
+.myMeteoSection .meteo_tab button.confirm_btn:hover {
+    background-color: #99cc33;
+    border: 1px #99cc33 solid;
+    color: #454545;
+}
+
+.myMeteoSection .meteo_tab button.edit_btn:hover,  .myMeteoSection .meteo_tab button.cancel_btn:hover{
+    background-color: #e3d8c6;
+    color: #454545;
+}
+
+.myMeteoSection .meteo_tab button {
+    cursor: pointer;
+}
+
+.myMeteoSection .meteo_tab button.delete_btn {
+    border: 1px solid #ff5858;
+    color: #ff5858;
+    background-color: inherit;
+    transition-duration: .5s;
+}
+
+.myMeteoSection .meteo_tab button.delete_btn:hover {
+    background-color: #ff5858;
+    border: 1px #ff5858 solid;
+    color: #454545;
+}
+
+.myMeteoSection .meteo_tab button span {
+    display: inline-block;
+    margin: 0;
+    padding: .5em;
+}
+
+.myMeteoSection .meteo_tab button svg {
+    padding: 0;
+}
+
+.myMeteoSection .meteo_tab .change_btn_div {
+    margin-top: 1.5em;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-around;
+}
+
+.myMeteoSection .meteo_tab input {
+    background: inherit;
+    border: none;
+    border-bottom: 1px solid #e3d8c6;
+    color: #e3d8c6;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 100;
+    font-family: inherit;
+}
+
+.myMeteoSection .meteo_tab h3 input {
+    text-align: center;
+}
+
+.myMeteoSection .meteo_tab input:focus-visible {
+    outline: none;
+}
+
+.myMeteoSection .listMeteostations ul {
+    padding: 0;
+}
+
+
+/*  flip card   */
+
+.flip-card-inner {
+    border-radius: 1em;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,.37);
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transition: -webkit-transform .6s;
+    transition: transform .6s;
+    width: 19em;
+    height: 16em;
+    transition: transform .6s,-webkit-transform .6s;
+}
+
+/*
+.meteo_tab:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+*/
+.flip-card-front,
+.flip-card-back {
+    background-color: #454545;
+    color: #e3d8c6;
+    padding: 1em;
+    width: 17em;
+    height: 14em;
+position: absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: #454545;
+    color: #e3d8c6;
+    padding: 1em;
+}
+
+.flip-card-back {
+    background-color: #454545;
+    color: #e3d8c6;
+    padding: 1em;
+    transform: rotateY(180deg);
+}

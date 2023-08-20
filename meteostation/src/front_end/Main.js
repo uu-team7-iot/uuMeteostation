@@ -12,7 +12,7 @@ import Suggest from './Suggest';
 import WeatherTab from './WeatherTab';
 import Notification from './Notification';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloudShowersHeavy, faPlus, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCloudShowersHeavy, faPlus, faMagnifyingGlass, faXmark, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from "./utils/AuthContext";
 
 function Main() {
@@ -33,7 +33,10 @@ function Main() {
 
     const [temp_data, settemp_data] = useState(false)
 
-    const { createMeteo, isAuthenticated } = useContext(AuthContext);
+    const [alertContent, setAlertContent] = useState(null)
+    const [openAlert, setOpenAlert] = useState(false);
+
+    const { createMeteo, isAuthenticated, AlertBox } = useContext(AuthContext);
 
     useEffect(() => {
         fetchMeteo(meteo_nm)
@@ -67,14 +70,14 @@ function Main() {
     async function fetchMeteo(meteo_name) {
         try{
             console.log('here   ' + meteo_name)
-            const mt_response = await fetch(`/api/meteo-info/${meteo_name}`)
+            const mt_response = await fetch(`/api/meteostations/meteo-info/${meteo_name}`)
             const mt_data = await mt_response.json()
             if (!mt_data.error) {
                 setMeteo_nm(mt_data.name)
                 setMeteoId(mt_data._id)
     
     
-                const response = await fetch(`/api/get-meassure-last/${mt_data._id}`);
+                const response = await fetch(`/api/measure/get-last-measure/${mt_data._id}`);
                 const data = await response.json();
                 console.log(data)
                 if (!data.error) {
@@ -94,6 +97,15 @@ function Main() {
 
     }
 
+    function hideAlertBox () {
+        setOpenAlert(false)
+    }
+
+    function setContentBox (obj) {
+        setAlertContent({msg:obj.msg, success:obj.success})
+        setOpenAlert(true)
+    }
+
     return (
         <>
             {isAuthenticated ? <NavbarProtected /> : <Navbar />}
@@ -105,8 +117,9 @@ function Main() {
                     <label>Locality</label>
                     <input type='text' onChange={(e) => setLocality(e.target.value)} />
                     <button onClick={async () => {
-                        const meteo_response = await createMeteo(name, locality)
-                        if (meteo_response) {
+                        const result_val = await createMeteo(name, locality)
+                        setContentBox(result_val)
+                        if (result_val.success) {
                             setIsOpen(false)
                         }
                     }
@@ -117,6 +130,7 @@ function Main() {
 
             </aside>
             {(isOpen || isOpenNoti) ? <div className="overlay"></div> : <></>}
+            { openAlert && <AlertBox success={alertContent.success} msg={alertContent.msg} hideAlertBox={hideAlertBox}/>}
 
             <section className='top_main_section'>
                 <section className="search_bar_section">
@@ -142,10 +156,13 @@ function Main() {
                 meteo_last_tmp={meteo_last_tmp}
                 openModalNoti={openModalNoti}
             />
-            <Notification openModalNoti={openModalNoti} modalStylesNoti={modalStylesNoti} meteo_nm={meteo_nm} />
+            <Notification openModalNoti={openModalNoti} modalStylesNoti={modalStylesNoti} meteo_nm={meteo_nm} setContentBox={setContentBox}/>
 
             {
                 temp_data && <WeatherGraph meteo_id={meteo_id} />
+            }
+            {
+                !temp_data && <section className='info_no_temp'><FontAwesomeIcon icon={faCircleInfo} /> <p>No temperatures have been measured yet.</p></section>
             }
             <Footer />
         </>

@@ -15,6 +15,7 @@ import reportWebVitals from './reportWebVitals';
 import './front_end/css/FormPage.css'
 import Footer from './front_end/Footer';
 import MyNotification from './front_end/MyNotification';
+import MyMeteostation from './front_end/MyMeteostation';
 import RouteProvider from './front_end/utils/RouteProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -39,6 +40,10 @@ root.render(
 
           <Route path="notification" element={
             <RouteProvider Component={MyNotification} Protected={true} />
+          } />
+
+          <Route path="meteostations" element={
+            <RouteProvider Component={MyMeteostation} Protected={true} />
           } />
 
 

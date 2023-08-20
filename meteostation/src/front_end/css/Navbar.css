@@ -1,6 +1,6 @@
 .navbar {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr auto auto auto;
     grid-template-rows: 1fr;
     font-size: 1.3em;
     font-weight: 500;
@@ -22,17 +22,16 @@
 
 .navbar li {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: start;
     height: 100%;
-    padding: 0 1rem;
+    padding: 0 2rem;
     text-decoration: none;
 }
 
 .navbar li button {
     border: none;
     background: inherit;
-    font-size: inherit;
+    font: inherit;
     color: inherit;
 }
 

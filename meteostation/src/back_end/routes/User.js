@@ -1,14 +1,14 @@
 const express = require('express')
 require('../db/mongoose')
-const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
+const emailSender = require('../utils/emailSender') 
 
-const router = new express.Router()
+const router = express.Router()
 
 const secretKey = 'my-secret-key';
 
-router.post('/api/register-user', async (req, res) => {
+router.post('/api/user/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
@@ -31,14 +31,22 @@ router.post('/api/register-user', async (req, res) => {
         // Generate and sign the token
         const token = jwt.sign(payload, secretKey);
 
+        const msg = {
+            to: email, // Change to your recipient
+            from: 'bazgierpetr@email.cz', // Change to your verified sender
+            subject: 'Welcome to Meteostation app',
+            html: '<p>Welcome to Meteostation app, hopefully you will enjoy watching <strong>data graphs</strong> and other stuff.</p>',
+        }
+        await emailSender(msg)
+
         // Return the token in the response
-        res.json({ msg: "User sucessfuly created.", token });
+        return res.json({ msg: "User sucessfuly created.", token });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 })
 
-router.post('/api/login-user', async (req, res) => {
+router.post('/api/user/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 

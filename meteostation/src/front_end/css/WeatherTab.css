@@ -4,11 +4,11 @@
 
 .weather_tab {
     display: grid;
-    width: 20em;
+    width: fit-content;
     margin: 0 auto 5em;
     font-size: 1.3em;
     gap: 2em;
-    padding: 2em 0 1em;
+    padding: 1em;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     background: hsla(0,0%,100%,.25);

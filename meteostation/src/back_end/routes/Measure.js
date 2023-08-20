@@ -4,20 +4,21 @@ const mongoose = require('mongoose')
 const Meteostation = require('../models/meteostation')
 const Meassure = require('../models/meassure')
 
-const router = new express.Router()
+const router = express.Router()
 
-// Define a route to handle temperature post
-router.post('/api/register-meassure', async (req, res) => {
+router.post('/api/measure/register-meassure', async (req, res) => {
     try {
         const { measurements } = req.body;
         console.log(measurements)
         const meteo_id = req.header('gatewayId')
+        const meteo_access_key = req.header('accessKey')
         console.log(meteo_id)
+        console.log(meteo_access_key)
 
-        const meteo = await Meteostation.findById(meteo_id)
+        const meteo = await Meteostation.findOne({_id: meteo_id, access_key: meteo_access_key})
 
         if (!meteo) {
-            return res.status(404).json({ msg: 'No meteo with given id' })
+            return res.status(404).json({ msg: 'No meteo with given id and access_key' })
         }
 
         for (const measureData of measurements) {
@@ -40,7 +41,7 @@ router.post('/api/register-meassure', async (req, res) => {
     }
 })
 
-router.get('/api/get-meassure-last/:meteo_id', async (req, res) => {
+router.get('/api/measure/get-last-measure/:meteo_id', async (req, res) => {
     try {
         const { meteo_id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(meteo_id)) {
@@ -59,7 +60,7 @@ router.get('/api/get-meassure-last/:meteo_id', async (req, res) => {
 });
 
 
-router.post('/api/get-meassures', async (req, res) => {
+router.post('/api/measure/get-meassures', async (req, res) => {
 
 
     function formatDate(date) {
