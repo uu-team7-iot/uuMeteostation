@@ -96,9 +96,12 @@ cron.schedule('* * * * *', async () => {
             }
         }
         msg.html = msg.html ? msg.html+ '<p>Thank you for using our services.</p> <p>Your MeteoApp.</p>' : ''
-        await emailSender(msg)
         console.log(msg)
-        msg.to, msg.html = ''
+        if (msg.to){
+            await emailSender(msg)
+            msg.to, msg.html = ''
+        }
+        
     }
 
 
