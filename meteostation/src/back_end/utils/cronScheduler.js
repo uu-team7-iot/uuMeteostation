@@ -4,27 +4,8 @@ const User = require('../models/user')
 const Notification = require('../models/notification')
 const Measure = require('../models/meassure')
 const Meteostation = require('../models/meteostation')
+const emailSender = require('../utils/emailSender') 
 
-
-/*cron.schedule('* * * * *', async () => {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    const notificationResponse = await Notification.find({date_to: {$gt: today}, date_from: {$lt: yesterday}})
-    const meteostationSet = new Set()
-    for (const el of notificationResponse) {
-        meteostationSet.add(el.name)
-    }
-    const measures = await Measure.find({time: {$gt: yesterday}})
-
-    for(const item of measures) {
-        console.log(item.meteostation.toString())
-        console.log(item.time)
-    }
-
-    console.log('Cron job is running');
-
-})*/
 
 function min_max_temp(measures) {
     if (measures.length === 0) {
@@ -47,10 +28,11 @@ function min_max_temp(measures) {
 }
 
 function messageBegin(owner_name, meteostation) {
-    return `Dear ${owner_name}, we contact you due to your set notification in our application for ${meteostation} meteostation.`
+    return `<p>Dear ${owner_name},</p> <p>we contact you due to your set notification in our application for ${meteostation} meteostation.</p>`
 }
 
-const func = async () => {
+
+cron.schedule('* * * * *', async () => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -87,29 +69,38 @@ const func = async () => {
             return item.meteo.name === el.name ? true : false
         })
 
-        let msg = ''
+        const msg = {
+            to: '',
+            from: 'bazgierpetr@email.cz',
+            subject: 'Notification',
+            html: '',
+        }
+        
 
         if (min_max_meteo.min_temp || min_max_meteo.max_temp) {
             if (el.temperature_below > min_max_meteo.min_temp) {
                 const usr = await User.findOne({ _id: el.creator })
-                msg = messageBegin(usr.name, el.name)
-                msg += `Temperature decrease below ${el.temperature_below} to the ${min_max_meteo.min_temp}.`
+                msg.to = usr.email
+                msg.html = messageBegin(usr.name, el.name)
+                msg.html += `<p>Temperature decrease below ${el.temperature_below} to the ${min_max_meteo.min_temp}.</p>`
             }
             if (el.temperature_above < min_max_meteo.max_temp) {
                 if (!msg) {
                     const usr = await User.findOne({ _id: el.creator })
-                    msg = messageBegin(usr.name, el.name)
-                    msg += `Temperature increase above ${el.temperature_above} to the ${min_max_meteo.max_temp}.`
+                    msg.to = usr.email
+                    msg.html = messageBegin(usr.name, el.name)
+                    msg.html += `<p>Temperature increase above ${el.temperature_above} to the ${min_max_meteo.max_temp}.</p>`
                 } else {
-                    msg += `Temperature increase above ${el.temperature_above} to the ${min_max_meteo.max_temp}.`
+                    msg += `<p>Temperature increase above ${el.temperature_above} to the ${min_max_meteo.max_temp}.</p>`
                 }
             }
         }
-        msg = msg ? msg+ 'Thank you for using our services. Your MeteoApp.' : ''
-        console.log(msg ? msg : '')
-        msg = ''
+        msg.html = msg.html ? msg.html+ '<p>Thank you for using our services.</p> <p>Your MeteoApp.</p>' : ''
+        await emailSender(msg)
+        console.log(msg)
+        msg.to, msg.html = ''
     }
 
-}
 
-func()
+})
+
